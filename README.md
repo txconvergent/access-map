@@ -1,6 +1,6 @@
 # access-map
 
-# Project Guidelines
+## Project Guidelines
 
 ## Tech Stack:  
     Front-end: React Native  
