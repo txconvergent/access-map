@@ -3,14 +3,14 @@
 ## Project Guidelines
 
 ## Tech Stack:  
-    Front-end: React Native  
-    Back-end: NodeJS  
+    Front-end: iOS 
+    Back-end: MongoDB + REST
     Middleware: Express    
     Database: MongoDB  
 
 ## Assignments:  
-    Front-end:  
-    Back-end:  
+    Front-end: Sahil, Alberto
+    Back-end: Matt
 
 ## Timeline:  
     Week 1(2/19 - 2/26):  
