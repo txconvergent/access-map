@@ -1,3 +1,5 @@
 ios-maps/Access/Pods/
 .DS_Store
 ios-maps/Access/Access.xcworkspace/xcuserdata/
+build/
+DerivedData/
