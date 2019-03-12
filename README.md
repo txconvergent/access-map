@@ -1,5 +1,5 @@
 # access-map
-
+To run in iOS simulator, be sure to run `pod install` in your terminal in the `ios-maps/Access` directory to install pods from the Podfile!
 ## Project Guidelines
 
 ## Tech Stack:  
