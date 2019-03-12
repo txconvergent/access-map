@@ -1,6 +1,4 @@
-# access-map
-
-## Project Guidelines
+# access-map Project Guidelines
 
 ## Tech Stack:  
     Front-end: iOS 
