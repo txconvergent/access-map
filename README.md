@@ -7,7 +7,7 @@
     Database: MongoDB  
 
 ## Assignments:  
-    Front-end: Sahil, Alberto
+    Front-end: Sahil, Alberto, Larry
     Back-end: Matt
 
 ## Timeline:  
