@@ -7,4 +7,5 @@ target 'Access' do
 
   # Pods for Access
   pod 'Mapbox-iOS-SDK', '~> 4.9'
+  pod 'MapboxNavigation', '~> 0.30.0'
 end
