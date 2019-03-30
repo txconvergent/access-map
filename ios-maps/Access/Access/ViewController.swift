@@ -98,8 +98,8 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         let origin = Waypoint(coordinate: origin, coordinateAccuracy: -1, name: "Start")
         let destination = Waypoint(coordinate: destination, coordinateAccuracy: -1, name: "Finish")
         
-        // Specify that the route is intended for automobiles avoiding traffic
-        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
+        // Specify that the route is inteded for walking
+        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .walking)
         
         // Generate the route object and draw it on the map
         _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
@@ -110,7 +110,16 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         }
         
     }
-
+    // Implement the delegate method that allows annotations to show callouts when tapped
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
+    }
+    
+    // Present the navigation view controller when the callout is selected
+    func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
+        let navigationViewController = NavigationViewController(for: directionsRoute!)
+        self.present(navigationViewController, animated: true, completion: nil)
+    }
 
 }
 
