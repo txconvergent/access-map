@@ -14,17 +14,31 @@ import MapboxDirections
 
 
 class ViewController: UIViewController, MGLMapViewDelegate{
-    
+	
+	@IBOutlet weak var addressSearchBar: UISearchBar!
+	@IBOutlet weak var searchTableView: UITableView!
+	@IBOutlet weak var headerView: UIView!
+	
+	
     var mapView: NavigationMapView!
-    
     var directionsRoute: Route?
-    
+	var destinationCoords: (Double, Double)?
+	
+	var searchResults: [SearchResult] = []
+	let searchItemCap = 7
     
     override func viewDidLoad() {
         super.viewDidLoad()
+		print(searchResults)
+		
         mapView = NavigationMapView(frame: view.bounds)
-        
+		
         view.addSubview(mapView)
+		view.addSubview(headerView) // Adding header on top of map view
+		
+		addressSearchBar.delegate = self
+		searchTableView.dataSource = self
+		searchTableView.delegate = self
         
         // Set the map view's delegate
         mapView.delegate = self
@@ -32,12 +46,17 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         // allow the map to display the user's
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(.follow, animated: true)
-        
+		
         // Add a gesture recognizer to the map view
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
         mapView.addGestureRecognizer(longPress)
 
     }
+	
+	override func viewDidLayoutSubviews() {
+		searchTableView.frame = CGRect(x: searchTableView.frame.origin.x, y: searchTableView.frame.origin.y, width: searchTableView.frame.size.width, height: searchTableView.contentSize.height)
+		searchTableView.reloadData()
+	}
     
     @objc func didLongPress(_ sender: UILongPressGestureRecognizer) {
         guard sender.state == .began else { return }
@@ -113,4 +132,3 @@ class ViewController: UIViewController, MGLMapViewDelegate{
 
 
 }
-

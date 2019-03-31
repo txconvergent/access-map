@@ -13,6 +13,8 @@
 		C3EBD6E8223082B100A33D46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EBD6E6223082B100A33D46 /* Main.storyboard */; };
 		C3EBD6EA223082B200A33D46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C3EBD6E9223082B200A33D46 /* Assets.xcassets */; };
 		C3EBD6ED223082B200A33D46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C3EBD6EB223082B200A33D46 /* LaunchScreen.storyboard */; };
+		DBB5EFA122501CD200E2EF81 /* ViewController+SearchAndTableDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB5EFA022501CD200E2EF81 /* ViewController+SearchAndTableDelegates.swift */; };
+		DBB5EFA3225032F100E2EF81 /* jsonStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB5EFA2225032F100E2EF81 /* jsonStructs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		C3EBD6EC223082B200A33D46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C3EBD6EE223082B200A33D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D667B084F215DBACC14F9C71 /* Pods-Access.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Access.debug.xcconfig"; path = "Target Support Files/Pods-Access/Pods-Access.debug.xcconfig"; sourceTree = "<group>"; };
+		DBB5EFA022501CD200E2EF81 /* ViewController+SearchAndTableDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+SearchAndTableDelegates.swift"; sourceTree = "<group>"; };
+		DBB5EFA2225032F100E2EF81 /* jsonStructs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jsonStructs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +88,8 @@
 				C3EBD6E9223082B200A33D46 /* Assets.xcassets */,
 				C3EBD6EB223082B200A33D46 /* LaunchScreen.storyboard */,
 				C3EBD6EE223082B200A33D46 /* Info.plist */,
+				DBB5EFA022501CD200E2EF81 /* ViewController+SearchAndTableDelegates.swift */,
+				DBB5EFA2225032F100E2EF81 /* jsonStructs.swift */,
 			);
 			path = Access;
 			sourceTree = "<group>";
@@ -232,6 +238,8 @@
 			files = (
 				C3EBD6E5223082B100A33D46 /* ViewController.swift in Sources */,
 				C3EBD6E3223082B100A33D46 /* AppDelegate.swift in Sources */,
+				DBB5EFA3225032F100E2EF81 /* jsonStructs.swift in Sources */,
+				DBB5EFA122501CD200E2EF81 /* ViewController+SearchAndTableDelegates.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
