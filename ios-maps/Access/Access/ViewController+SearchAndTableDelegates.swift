@@ -22,6 +22,12 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 		}
 	}
 	
+	// Retract dropdown once done editing
+	func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+		self.searchResults.removeAll()
+		self.searchTableView.reloadData()
+	}
+	
 	// Required function from UITableViewDataSource that inserts the search results into the view
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "Result Cell", for: indexPath)
@@ -31,11 +37,7 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 	
 	// Required function from UITableViewDataSource that gets the # of cells in search results table view
 	func tableView (_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		let rowNum = self.searchResults.count
-		//let newHeight = CGFloat(rowNum) * tableView.rowHeight + CGFloat(self.addressSearchBar.frame.height)
-		//let newFrame = CGRect(origin: tableView.frame.origin, size: CGSize(width: tableView.frame.width, height: newHeight))
-		//tableView.frame = newFrame
-		return rowNum
+		return self.searchResults.count
 	}
 	
 	// Function from UITableViewDelegate that will get the coords of the selected thing and get the mapbox waypoint
@@ -46,14 +48,14 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 		self.addressSearchBar.resignFirstResponder()
 	}
 	
+	// Collapse rows when nothings in self.searchReults
 	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return self.searchResults.count > 0 ? UITableView.automaticDimension : 0
 	}
 	
 	// Performs a get request and inserts the results into self.searchResults
 	func getSearchResults (_ query: String, resultCap limit: Int, _ callback: @escaping () -> Void) {
-		// Gonna hide this later
-		let key = "pk.eyJ1IjoidHhhY2Nlc3NtYXBzIiwiYSI6ImNqc253dWRjdzBndWszeW1yaHA3azBlb20ifQ.tWBLaWHDUAt5ZjcaJF-pRw"
+		let key = Bundle.main.object(forInfoDictionaryKey: "MGLMapboxAccessToken") as! String
 		
 		// Create url and request
 		guard let urlStr: String = ("https://api.mapbox.com/geocoding/v5/mapbox.places/\(query).json?limit=\(limit)&proximity=-97.739356,30.286356&access_token=\(key)").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {

@@ -36,6 +36,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         view.addSubview(mapView)
 		view.addSubview(headerView) // Adding header on top of map view
 		
+		// Set searchbar's delegates
 		addressSearchBar.delegate = self
 		searchTableView.dataSource = self
 		searchTableView.delegate = self
