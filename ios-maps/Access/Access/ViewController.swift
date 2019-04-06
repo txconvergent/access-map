@@ -16,16 +16,16 @@ import MapboxDirections
 class ViewController: UIViewController, MGLMapViewDelegate{
     
     var mapView: NavigationMapView!
+    private var UTAustin: MGLCoordinateBounds!
     
+    var annotation: MGLPointAnnotation?
     var directionsRoute: Route?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView = NavigationMapView(frame: view.bounds)
-        
         view.addSubview(mapView)
-        
         // Set the map view's delegate
         mapView.delegate = self
         
@@ -48,17 +48,24 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         
         // Create a basic point annotation and add it to the map
-        let annotation = MGLPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = "Start navigation"
-        mapView.addAnnotation(annotation)
+        if let oldAnnoation = annotation{
+            mapView.removeAnnotation(oldAnnoation)
+        }
+        
+        let newAnnotation = MGLPointAnnotation()
+        newAnnotation.coordinate = coordinate
+        newAnnotation.title = "Start navigation"
+        mapView.addAnnotation(newAnnotation)
+        
         
         //calculate the route from current location to destination
-        calculateRoute(from: (mapView.userLocation!.coordinate), to: annotation.coordinate) { (route, error) in
+        calculateRoute(from: (mapView.userLocation!.coordinate), to: newAnnotation.coordinate) { (route, error) in
             if error != nil {
                 print("Error calculating route")
             }
         }
+        //set the global annotation 
+        annotation = newAnnotation
         
     }
     
@@ -110,6 +117,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         }
         
     }
+    
     // Implement the delegate method that allows annotations to show callouts when tapped
     func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
         return true
@@ -120,6 +128,8 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         let navigationViewController = NavigationViewController(for: directionsRoute!)
         self.present(navigationViewController, animated: true, completion: nil)
     }
+    
+ 
 
 }
 
