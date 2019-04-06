@@ -47,11 +47,12 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         let point = sender.location(in: mapView)
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         
-        // Create a basic point annotation and add it to the map
+        // remove old annotation
         if let oldAnnoation = annotation{
             mapView.removeAnnotation(oldAnnoation)
         }
         
+        // Create a basic point annotation and add it to the map
         let newAnnotation = MGLPointAnnotation()
         newAnnotation.coordinate = coordinate
         newAnnotation.title = "Start navigation"
@@ -64,7 +65,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
                 print("Error calculating route")
             }
         }
-        //set the global annotation 
+        //set the global annotation
         annotation = newAnnotation
         
     }
