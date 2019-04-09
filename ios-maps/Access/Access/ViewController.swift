@@ -24,7 +24,8 @@ class ViewController: UIViewController, MGLMapViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        mapView = NavigationMapView(frame: view.bounds)
+        let url = URL(string: "mapbox://styles/txaccessmaps/cjtqf4lsq01fk1fp4zn44vku5")
+        mapView = NavigationMapView(frame: view.bounds, styleURL: url)
         view.addSubview(mapView)
         // Set the map view's delegate
         mapView.delegate = self
@@ -45,6 +46,9 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         // Converts point where user did a long press to map coordinates
         
         let point = sender.location(in: mapView)
+        if mapView == nil {
+            print("here")
+        }
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         
         // remove old annotation
