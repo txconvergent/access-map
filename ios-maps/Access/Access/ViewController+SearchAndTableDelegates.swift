@@ -17,23 +17,32 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 		getSearchResults(searchText, resultCap: 6) {
 			// Callback
 			DispatchQueue.main.async {
+				// UI updating can only occur on the main thread
+				self.updateHeaderHeight()
 				self.searchTableView.reloadData()
 			}
 		}
 	}
 	
-	// Retract dropdown once done editing
-	func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-		self.searchResults.removeAll()
+	func searchBarTextDidBeginEditing (_ searchBar: UISearchBar) {
 		self.searchTableView.reloadData()
 	}
 	
+	// Retract dropdown once done editing
+	func searchBarTextDidEndEditing (_ searchBar: UISearchBar) {
+		self.searchResults.removeAll()
+		self.searchTableView.reloadData()
+		updateHeaderHeight()
+		print("\(self.destinationCoords)")
+	}
+	
 	// Required function from UITableViewDataSource that inserts the search results into the view
-	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCell(withIdentifier: "Result Cell", for: indexPath)
+	func tableView (_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "ResultCell", for: indexPath)
 		cell.textLabel?.text = self.searchResults[indexPath.row].placeName
 		return cell
 	}
+	
 	
 	// Required function from UITableViewDataSource that gets the # of cells in search results table view
 	func tableView (_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -41,7 +50,7 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 	}
 	
 	// Function from UITableViewDelegate that will get the coords of the selected thing and get the mapbox waypoint
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+	func tableView (_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 		let selected = self.searchResults[indexPath.row]
 		self.addressSearchBar.text = selected.placeName
 		self.destinationCoords = selected.coords
@@ -49,9 +58,14 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 	}
 	
 	// Collapse rows when nothings in self.searchReults
-	func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+	/*func tableView (_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 		return self.searchResults.count > 0 ? UITableView.automaticDimension : 0
+	}*/
+	
+	func numberOfSections(in tableView: UITableView) -> Int {
+		return 1
 	}
+	
 	
 	// Performs a get request and inserts the results into self.searchResults
 	func getSearchResults (_ query: String, resultCap limit: Int, _ callback: @escaping () -> Void) {
@@ -93,11 +107,7 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 					// Add the place name to our list of search results
 					guard let castedFeature = feature as? NSDictionary else {return}
 					guard let placeName = castedFeature["place_name"] as? String else {return}
-					guard let coordinates = castedFeature["center"] as? [Double] else {
-						print(type(of: castedFeature["center"]))
-						//print(castedFeature["center"] as? (Double, Double))
-						return
-					}
+					guard let coordinates = castedFeature["center"] as? [Double] else {return}
 					let coords = (coordinates[1], coordinates[0])
 					let searchResult = SearchResult(placeName: placeName, coords: coords)
 					self.searchResults.append(searchResult)
@@ -109,6 +119,15 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 			}
 		}
 		dataTask.resume()
+	}
+	
+	func updateHeaderHeight () {
+		// Update tableView
+		// Now dynamically resize header
+		let headerSize = CGSize(width: headerView.frame.width, height: addressSearchBar.frame.height + searchTableView.contentSize.height + CGFloat(5))
+		headerView.frame = CGRect(origin: headerView.frame.origin, size: headerSize)
+		searchTableView.frame = CGRect(origin: searchTableView.frame.origin, size: searchTableView.contentSize)
+		print(searchTableView.frame.height)
 	}
 	
 }

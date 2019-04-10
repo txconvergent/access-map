@@ -14,22 +14,21 @@ import MapboxDirections
 
 
 class ViewController: UIViewController, MGLMapViewDelegate{
+	@IBOutlet weak var searchTableView: UITableView!
 	
 	@IBOutlet weak var addressSearchBar: UISearchBar!
-	@IBOutlet weak var searchTableView: UITableView!
 	@IBOutlet weak var headerView: UIView!
-	
 	
     var mapView: NavigationMapView!
     var directionsRoute: Route?
 	var destinationCoords: (Double, Double)?
 	
 	var searchResults: [SearchResult] = []
+	var test = ["please", "fucking", "work"]
 	let searchItemCap = 7
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		print(searchResults)
 		
         mapView = NavigationMapView(frame: view.bounds)
 		
@@ -54,10 +53,10 @@ class ViewController: UIViewController, MGLMapViewDelegate{
 
     }
 	
-	override func viewDidLayoutSubviews() {
+	/*override func viewDidLayoutSubviews() {
 		searchTableView.frame = CGRect(x: searchTableView.frame.origin.x, y: searchTableView.frame.origin.y, width: searchTableView.frame.size.width, height: searchTableView.contentSize.height)
 		searchTableView.reloadData()
-	}
+	}*/
     
     @objc func didLongPress(_ sender: UILongPressGestureRecognizer) {
         guard sender.state == .began else { return }
