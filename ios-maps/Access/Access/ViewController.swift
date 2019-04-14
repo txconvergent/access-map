@@ -20,11 +20,13 @@ class ViewController: UIViewController, MGLMapViewDelegate{
 	@IBOutlet weak var headerView: UIView!
 	
     var mapView: NavigationMapView!
+    private var UTAustin: MGLCoordinateBounds!
+    
+    var annotation: MGLPointAnnotation?
     var directionsRoute: Route?
 	var destinationCoords: (Double, Double)?
 	
 	var searchResults: [SearchResult] = []
-	var test = ["please", "fucking", "work"]
 	let searchItemCap = 7
     
     override func viewDidLoad() {
@@ -39,7 +41,10 @@ class ViewController: UIViewController, MGLMapViewDelegate{
 		addressSearchBar.delegate = self
 		searchTableView.dataSource = self
 		searchTableView.delegate = self
-        
+		
+        let url = URL(string: "mapbox://styles/txaccessmaps/cjtqf4lsq01fk1fp4zn44vku5")
+        mapView = NavigationMapView(frame: view.bounds, styleURL: url)
+        view.addSubview(mapView)
         // Set the map view's delegate
         mapView.delegate = self
         
@@ -64,20 +69,31 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         // Converts point where user did a long press to map coordinates
         
         let point = sender.location(in: mapView)
+        if mapView == nil {
+            print("here")
+        }
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         
+        // remove old annotation
+        if let oldAnnoation = annotation{
+            mapView.removeAnnotation(oldAnnoation)
+        }
+        
         // Create a basic point annotation and add it to the map
-        let annotation = MGLPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = "Start navigation"
-        mapView.addAnnotation(annotation)
+        let newAnnotation = MGLPointAnnotation()
+        newAnnotation.coordinate = coordinate
+        newAnnotation.title = "Start navigation"
+        mapView.addAnnotation(newAnnotation)
+        
         
         //calculate the route from current location to destination
-        calculateRoute(from: (mapView.userLocation!.coordinate), to: annotation.coordinate) { (route, error) in
+        calculateRoute(from: (mapView.userLocation!.coordinate), to: newAnnotation.coordinate) { (route, error) in
             if error != nil {
                 print("Error calculating route")
             }
         }
+        //set the global annotation
+        annotation = newAnnotation
         
     }
     
@@ -117,8 +133,8 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         let origin = Waypoint(coordinate: origin, coordinateAccuracy: -1, name: "Start")
         let destination = Waypoint(coordinate: destination, coordinateAccuracy: -1, name: "Finish")
         
-        // Specify that the route is intended for automobiles avoiding traffic
-        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .automobileAvoidingTraffic)
+        // Specify that the route is inteded for walking
+        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .walking)
         
         // Generate the route object and draw it on the map
         _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
@@ -129,6 +145,18 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         }
         
     }
-
+    
+    // Implement the delegate method that allows annotations to show callouts when tapped
+    func mapView(_ mapView: MGLMapView, annotationCanShowCallout annotation: MGLAnnotation) -> Bool {
+        return true
+    }
+    
+    // Present the navigation view controller when the callout is selected
+    func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
+        let navigationViewController = NavigationViewController(for: directionsRoute!)
+        self.present(navigationViewController, animated: true, completion: nil)
+    }
+    
+ 
 
 }
