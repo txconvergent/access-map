@@ -34,9 +34,6 @@ class ViewController: UIViewController, MGLMapViewDelegate{
 		
         mapView = NavigationMapView(frame: view.bounds)
 		
-        view.addSubview(mapView)
-		view.addSubview(headerView) // Adding header on top of map view
-		
 		// Set searchbar's delegates
 		addressSearchBar.delegate = self
 		searchTableView.dataSource = self
@@ -45,6 +42,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         let url = URL(string: "mapbox://styles/txaccessmaps/cjtqf4lsq01fk1fp4zn44vku5")
         mapView = NavigationMapView(frame: view.bounds, styleURL: url)
         view.addSubview(mapView)
+        view.addSubview(headerView) // Adding header on top of map view
         // Set the map view's delegate
         mapView.delegate = self
         
