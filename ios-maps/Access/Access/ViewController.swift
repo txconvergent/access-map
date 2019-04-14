@@ -53,6 +53,8 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         // Add a gesture recognizer to the map view
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
         mapView.addGestureRecognizer(longPress)
+		
+		self.addGestureToDismissKeyboardOnTap() // Create a gesture recognizer that retracts the keyboard on tap for this vieng
 
     }
 	
