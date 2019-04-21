@@ -20,6 +20,14 @@
 
 /* Begin PBXFileReference section */
 		771CE706ABE63C30D9012D1A /* Pods-Access.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Access.release.xcconfig"; path = "Target Support Files/Pods-Access/Pods-Access.release.xcconfig"; sourceTree = "<group>"; };
+		7DB4212B226CE26C00CF8089 /* MapboxCoreNavigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MapboxCoreNavigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DB4212D226CE26C00CF8089 /* MapboxDirections.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MapboxDirections.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DB4212F226CE26C00CF8089 /* MapboxMobileEvents.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MapboxMobileEvents.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DB42131226CE26C00CF8089 /* MapboxNavigation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MapboxNavigation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DB42133226CE26C00CF8089 /* MapboxSpeech.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MapboxSpeech.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DB42135226CE26C00CF8089 /* Polyline.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Polyline.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DB42137226CE26C00CF8089 /* Solar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Solar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7DB42139226CE26C00CF8089 /* Turf.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Turf.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC294CDF1604091A7952537F /* Pods_Access.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Access.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3EBD6DF223082B100A33D46 /* Access.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Access.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3EBD6E2223082B100A33D46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +66,14 @@
 		5313C718588DEAC1AA4F3540 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7DB4212B226CE26C00CF8089 /* MapboxCoreNavigation.framework */,
+				7DB4212D226CE26C00CF8089 /* MapboxDirections.framework */,
+				7DB4212F226CE26C00CF8089 /* MapboxMobileEvents.framework */,
+				7DB42131226CE26C00CF8089 /* MapboxNavigation.framework */,
+				7DB42133226CE26C00CF8089 /* MapboxSpeech.framework */,
+				7DB42135226CE26C00CF8089 /* Polyline.framework */,
+				7DB42137226CE26C00CF8089 /* Solar.framework */,
+				7DB42139226CE26C00CF8089 /* Turf.framework */,
 				BC294CDF1604091A7952537F /* Pods_Access.framework */,
 			);
 			name = Frameworks;
