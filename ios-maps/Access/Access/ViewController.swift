@@ -24,7 +24,6 @@ class ViewController: UIViewController, MGLMapViewDelegate{
     
     var annotation: MGLPointAnnotation?
     var directionsRoute: Route?
-	var destinationCoords: (Double, Double)?
 	
 	var searchResults: [SearchResult] = []
 	let searchItemCap = 7

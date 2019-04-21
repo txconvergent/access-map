@@ -7,7 +7,12 @@
 //
 
 import Foundation
+//import CoreLocation
 import UIKit
+import Mapbox
+import MapboxCoreNavigation
+import MapboxNavigation
+import MapboxDirections
 
 // Extension for performing location search queries
 extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
@@ -33,7 +38,6 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 		self.searchResults.removeAll()
 		self.searchTableView.reloadData()
 		updateHeaderHeight()
-		print("\(self.destinationCoords)")
 	}
 	
 	// Required function from UITableViewDataSource that inserts the search results into the view
@@ -51,9 +55,39 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 	
 	// Function from UITableViewDelegate that will get the coords of the selected thing and get the mapbox waypoint
 	func tableView (_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-		let selected = self.searchResults[indexPath.row]
-		self.addressSearchBar.text = selected.placeName
-		self.destinationCoords = selected.coords
+		let selected = self.searchResults[indexPath.row] // Selected search result
+		
+		// Draw route
+		
+		guard let origin = getCurrentLocation() else {
+			print("Error getting user location")
+			return
+		}
+		let dest = selected.coords
+		
+		// remove old annotation
+		if let oldAnnotation = self.annotation {
+			self.mapView.removeAnnotation(oldAnnotation)
+		}
+		
+		// Create a basic point annotation and add it to the map
+		let newAnnotation = MGLPointAnnotation()
+		newAnnotation.coordinate = dest
+		newAnnotation.title = "Start navigation"
+		self.mapView.addAnnotation(newAnnotation)
+		
+		// Set global variable
+		self.annotation = newAnnotation
+		
+		// Draw the route
+		self.calculateRoute(from: origin, to: dest) {
+			route, error in
+			// Check for the error
+			if let err = error {
+				print("Error drawing route: \(err)")
+			}
+		}
+		
 		self.addressSearchBar.resignFirstResponder()
 	}
 	
@@ -108,7 +142,7 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 					guard let castedFeature = feature as? NSDictionary else {return}
 					guard let placeName = castedFeature["place_name"] as? String else {return}
 					guard let coordinates = castedFeature["center"] as? [Double] else {return}
-					let coords = (coordinates[1], coordinates[0])
+					let coords = CLLocationCoordinate2D(latitude: coordinates[1], longitude: coordinates[0])
 					let searchResult = SearchResult(placeName: placeName, coords: coords)
 					self.searchResults.append(searchResult)
 				}
@@ -130,11 +164,15 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 		print(searchTableView.frame.height)
 	}
 	
+	func getCurrentLocation () -> CLLocationCoordinate2D? {
+		return self.mapView.userLocation?.coordinate
+	}
+	
 }
 
 struct SearchResult {
 	
 	let placeName: String
-	let coords: (lat: Double, long: Double)
+	let coords: CLLocationCoordinate2D
 	
 }
