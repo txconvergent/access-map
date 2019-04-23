@@ -19,6 +19,36 @@ class ViewController: UIViewController, MGLMapViewDelegate{
 	@IBOutlet weak var addressSearchBar: UISearchBar!
 	@IBOutlet weak var headerView: UIView!
 	
+    //UI - menu
+    @IBOutlet weak var menuLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var menuView: UIView!
+    
+    var menuShowing = false
+    
+    @IBAction func menuTapped(_ sender: Any) {
+        if(menuShowing){
+            //close the menu
+            print("close menu")
+            menuLeadingConstraint.constant = -240
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }else{
+            //open the menu
+            print("open menu")
+            menuLeadingConstraint.constant = 0
+            //animation
+            UIView.animate(withDuration: 0.3, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+        menuShowing = !menuShowing
+    }
+    //end of UI - menu
+    //UI - list of elements: blueprint
+    
+    
+    
     var mapView: NavigationMapView!
     private var UTAustin: MGLCoordinateBounds!
     
@@ -31,9 +61,16 @@ class ViewController: UIViewController, MGLMapViewDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+        //UI - menu bar
+        menuView.layer.shadowOpacity = 1
+        menuView.layer.shadowRadius = 6
+        //
+        
         mapView = NavigationMapView(frame: view.bounds)
+        //when the screen is rotated
+        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		
+        
 		// Set searchbar's delegates
 		addressSearchBar.delegate = self
 		searchTableView.dataSource = self
