@@ -53,7 +53,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
         mapView.addGestureRecognizer(longPress)
 		
-		self.addGestureToDismissKeyboardOnTap() // Create a gesture recognizer that retracts the keyboard on tap for this vieng
+        // self.addGestureToDismissKeyboardOnTap() // Create a gesture recognizer that retracts the keyboard on tap for this vieng
 
     }
 	
@@ -73,6 +73,19 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         }
         let coordinate = mapView.convert(point, toCoordinateFrom: mapView)
         
+        updateAnnotation(coordinate: coordinate)
+        
+        //calculate the route from current location to destination
+        calculateRoute(from: (mapView.userLocation!.coordinate), to: coordinate) { (route, error) in
+            if error != nil {
+                print("Error calculating route")
+            }
+        }
+
+        
+    }
+    
+    func updateAnnotation(coordinate: CLLocationCoordinate2D) {
         // remove old annotation
         if let oldAnnoation = annotation{
             mapView.removeAnnotation(oldAnnoation)
@@ -83,17 +96,8 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         newAnnotation.coordinate = coordinate
         newAnnotation.title = "Start navigation"
         mapView.addAnnotation(newAnnotation)
-        
-        
-        //calculate the route from current location to destination
-        calculateRoute(from: (mapView.userLocation!.coordinate), to: newAnnotation.coordinate) { (route, error) in
-            if error != nil {
-                print("Error calculating route")
-            }
-        }
         //set the global annotation
         annotation = newAnnotation
-        
     }
     
     // draw the route on the map
@@ -154,6 +158,10 @@ class ViewController: UIViewController, MGLMapViewDelegate{
     func mapView(_ mapView: MGLMapView, tapOnCalloutFor annotation: MGLAnnotation) {
         let navigationViewController = NavigationViewController(for: directionsRoute!)
         self.present(navigationViewController, animated: true, completion: nil)
+    }
+    
+    func mapView(_ mapView: MGLMapView) {
+        addressSearchBar.resignFirstResponder()
     }
     
  

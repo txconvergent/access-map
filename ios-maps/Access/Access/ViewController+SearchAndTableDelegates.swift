@@ -65,19 +65,7 @@ extension ViewController: UISearchBarDelegate, UITableViewDataSource, UITableVie
 		}
 		let dest = selected.coords
 		
-		// remove old annotation
-		if let oldAnnotation = self.annotation {
-			self.mapView.removeAnnotation(oldAnnotation)
-		}
-		
-		// Create a basic point annotation and add it to the map
-		let newAnnotation = MGLPointAnnotation()
-		newAnnotation.coordinate = dest
-		newAnnotation.title = "Start navigation"
-		self.mapView.addAnnotation(newAnnotation)
-		
-		// Set global variable
-		self.annotation = newAnnotation
+		updateAnnotation(coordinate: dest)
 		
 		// Draw the route
 		self.calculateRoute(from: origin, to: dest) {
