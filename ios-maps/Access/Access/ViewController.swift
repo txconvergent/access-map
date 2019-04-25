@@ -135,7 +135,6 @@ class ViewController: UIViewController, MGLMapViewDelegate{
        // Coordinate accuracy is the maximum distance away from the waypoint that the route may still be considered viable, measured in meters. Negative values indicate that a indefinite number of meters away from the route and still be considered viable.
         let origin = Waypoint(coordinate: origin, coordinateAccuracy: -1, name: "Start")
         let destination = Waypoint(coordinate: destination, coordinateAccuracy: -1, name: "Finish")
-        
         // Specify that the route is inteded for walking
         let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .walking)
         
