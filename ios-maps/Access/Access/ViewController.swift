@@ -27,6 +27,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
 	
 	var searchResults: [SearchResult] = []
 	let searchItemCap = 7
+    var PCL = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -133,10 +134,23 @@ class ViewController: UIViewController, MGLMapViewDelegate{
                         completion: @escaping (Route?, Error?) -> ()) {
         
        // Coordinate accuracy is the maximum distance away from the waypoint that the route may still be considered viable, measured in meters. Negative values indicate that a indefinite number of meters away from the route and still be considered viable.
-        let origin = Waypoint(coordinate: origin, coordinateAccuracy: -1, name: "Start")
+        let tower = CLLocationCoordinate2D(latitude: 30.285494, longitude: -97.739466)
+        let origin = Waypoint(coordinate: tower, coordinateAccuracy: -1, name: "Start")
+        var waypoints = [Waypoint]()
+        waypoints.append(origin)
+        let fountainRamp = CLLocationCoordinate2D(latitude: 30.2840589, longitude: -97.7393999)
+        let founWay = Waypoint(coordinate: fountainRamp, coordinateAccuracy: -1, name: "fountain")
+        waypoints.append(founWay)
+        if PCL {
+            let PCL = CLLocationCoordinate2D(latitude: 30.28335455, longitude: -97.73841977)
+            let pclWay = Waypoint(coordinate: PCL, coordinateAccuracy: -1, name: "PCL")
+            waypoints.append(pclWay)
+        }
         let destination = Waypoint(coordinate: destination, coordinateAccuracy: -1, name: "Finish")
+        waypoints.append(destination)
+        PCL = !PCL
         // Specify that the route is inteded for walking
-        let options = NavigationRouteOptions(waypoints: [origin, destination], profileIdentifier: .walking)
+        let options = NavigationRouteOptions(waypoints: waypoints, profileIdentifier: .walking)
         
         // Generate the route object and draw it on the map
         _ = Directions.shared.calculate(options) { [unowned self] (waypoints, routes, error) in
