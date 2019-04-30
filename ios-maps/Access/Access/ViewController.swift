@@ -14,31 +14,31 @@ import MapboxDirections
 
 
 class ViewController: UIViewController, MGLMapViewDelegate{
-	@IBOutlet weak var searchTableView: UITableView!
-	
-	@IBOutlet weak var addressSearchBar: UISearchBar!
-	@IBOutlet weak var headerView: UIView!
-	
+    @IBOutlet weak var searchTableView: UITableView!
+    
+    @IBOutlet weak var addressSearchBar: UISearchBar!
+    @IBOutlet weak var headerView: UIView!
+    
     var mapView: NavigationMapView!
     private var UTAustin: MGLCoordinateBounds!
     
     var annotation: MGLPointAnnotation?
     var directionsRoute: Route?
-	
-	var searchResults: [SearchResult] = []
-	let searchItemCap = 7
+    
+    var searchResults: [SearchResult] = []
+    let searchItemCap = 7
     var PCL = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
-		
+        
         mapView = NavigationMapView(frame: view.bounds)
-		
-		// Set searchbar's delegates
-		addressSearchBar.delegate = self
-		searchTableView.dataSource = self
-		searchTableView.delegate = self
-		
+        
+        // Set searchbar's delegates
+        addressSearchBar.delegate = self
+        searchTableView.dataSource = self
+        searchTableView.delegate = self
+        
         let url = URL(string: "mapbox://styles/txaccessmaps/cjtqf4lsq01fk1fp4zn44vku5")
         mapView = NavigationMapView(frame: view.bounds, styleURL: url)
         view.addSubview(mapView)
@@ -49,19 +49,19 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         // allow the map to display the user's
         mapView.showsUserLocation = true
         mapView.setUserTrackingMode(.follow, animated: true)
-		
+        
         // Add a gesture recognizer to the map view
         let longPress = UILongPressGestureRecognizer(target: self, action: #selector(didLongPress(_:)))
         mapView.addGestureRecognizer(longPress)
-		
+        
         // self.addGestureToDismissKeyboardOnTap() // Create a gesture recognizer that retracts the keyboard on tap for this vieng
-
+        
     }
-	
-	/*override func viewDidLayoutSubviews() {
-		searchTableView.frame = CGRect(x: searchTableView.frame.origin.x, y: searchTableView.frame.origin.y, width: searchTableView.frame.size.width, height: searchTableView.contentSize.height)
-		searchTableView.reloadData()
-	}*/
+    
+    /*override func viewDidLayoutSubviews() {
+     searchTableView.frame = CGRect(x: searchTableView.frame.origin.x, y: searchTableView.frame.origin.y, width: searchTableView.frame.size.width, height: searchTableView.contentSize.height)
+     searchTableView.reloadData()
+     }*/
     
     @objc func didLongPress(_ sender: UILongPressGestureRecognizer) {
         guard sender.state == .began else { return }
@@ -82,7 +82,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
                 print("Error calculating route")
             }
         }
-
+        
         
     }
     
@@ -133,6 +133,9 @@ class ViewController: UIViewController, MGLMapViewDelegate{
                         to destination: CLLocationCoordinate2D,
                         completion: @escaping (Route?, Error?) -> ()) {
         
+
+        // Coordinate accuracy is the maximum distance away from the waypoint that the route may still be considered viable, measured in meters. Negative values indicate that a indefinite number of meters away from the route and still be considered viable.
+
        // Coordinate accuracy is the maximum distance away from the waypoint that the route may still be considered viable, measured in meters. Negative values indicate that a indefinite number of meters away from the route and still be considered viable.
         let tower = CLLocationCoordinate2D(latitude: 30.285494, longitude: -97.739466)
         let origin = Waypoint(coordinate: tower, coordinateAccuracy: -1, name: "Start")
@@ -157,7 +160,7 @@ class ViewController: UIViewController, MGLMapViewDelegate{
             self.directionsRoute = routes?.first
             // Draw the route on the map after creating it
             self.drawRoute(route: self.directionsRoute!)
-
+            
         }
         
     }
@@ -177,6 +180,6 @@ class ViewController: UIViewController, MGLMapViewDelegate{
         addressSearchBar.resignFirstResponder()
     }
     
- 
-
+    
+    
 }
