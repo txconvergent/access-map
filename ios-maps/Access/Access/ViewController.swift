@@ -133,7 +133,10 @@ class ViewController: UIViewController, MGLMapViewDelegate{
                         to destination: CLLocationCoordinate2D,
                         completion: @escaping (Route?, Error?) -> ()) {
         
+
         // Coordinate accuracy is the maximum distance away from the waypoint that the route may still be considered viable, measured in meters. Negative values indicate that a indefinite number of meters away from the route and still be considered viable.
+
+       // Coordinate accuracy is the maximum distance away from the waypoint that the route may still be considered viable, measured in meters. Negative values indicate that a indefinite number of meters away from the route and still be considered viable.
         let tower = CLLocationCoordinate2D(latitude: 30.285494, longitude: -97.739466)
         let origin = Waypoint(coordinate: tower, coordinateAccuracy: -1, name: "Start")
         var waypoints = [Waypoint]()
